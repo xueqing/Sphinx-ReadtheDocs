@@ -13,6 +13,7 @@
     - [2.4 运行编译](#24-%e8%bf%90%e8%a1%8c%e7%bc%96%e8%af%91)
   - [3 配置 Sphinx](#3-%e9%85%8d%e7%bd%ae-sphinx)
     - [3.1 配置主题为 sphinx_rtd_theme](#31-%e9%85%8d%e7%bd%ae%e4%b8%bb%e9%a2%98%e4%b8%ba-sphinxrtdtheme)
+    - [3.2 支持 Markdown 文件](#32-%e6%94%af%e6%8c%81-markdown-%e6%96%87%e4%bb%b6)
   - [4 推送文件](#4-%e6%8e%a8%e9%80%81%e6%96%87%e4%bb%b6)
   - [5 导入到 ReadtheDocs](#5-%e5%af%bc%e5%85%a5%e5%88%b0-readthedocs)
     - [5.1 在 ReadtheDocs 网站手动导入](#51-%e5%9c%a8-readthedocs-%e7%bd%91%e7%ab%99%e6%89%8b%e5%8a%a8%e5%af%bc%e5%85%a5)
@@ -158,6 +159,20 @@ extensions = [
 
 # 修改主题
 html_theme = "sphinx_rtd_theme"
+```
+
+### 3.2 支持 Markdown 文件
+
+本地安装可使用：`pip install recommonmark`。
+
+在 Sphinx 工程中使用 Markdown 需要修改 `conf.py`：
+
+```py
+# 增加插件
+extensions = [
+    ...
+    "recommonmark",
+]
 ```
 
 ## 4 推送文件
