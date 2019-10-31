@@ -12,9 +12,11 @@
     - [2.3 增加内容](#23-%e5%a2%9e%e5%8a%a0%e5%86%85%e5%ae%b9)
     - [2.4 运行编译](#24-%e8%bf%90%e8%a1%8c%e7%bc%96%e8%af%91)
   - [3 配置 Sphinx](#3-%e9%85%8d%e7%bd%ae-sphinx)
+    - [3.1 配置主题为 sphinx_rtd_theme](#31-%e9%85%8d%e7%bd%ae%e4%b8%bb%e9%a2%98%e4%b8%ba-sphinxrtdtheme)
   - [4 推送文件](#4-%e6%8e%a8%e9%80%81%e6%96%87%e4%bb%b6)
   - [5 导入到 ReadtheDocs](#5-%e5%af%bc%e5%85%a5%e5%88%b0-readthedocs)
     - [5.1 在 ReadtheDocs 网站手动导入](#51-%e5%9c%a8-readthedocs-%e7%bd%91%e7%ab%99%e6%89%8b%e5%8a%a8%e5%af%bc%e5%85%a5)
+    - [5.2 ReadtheDocs 中文字符构建失败](#52-readthedocs-%e4%b8%ad%e6%96%87%e5%ad%97%e7%ac%a6%e6%9e%84%e5%bb%ba%e5%a4%b1%e8%b4%a5)
 
 文档采用 [reStructuredText](http://docutils.sourceforge.net/docs/user/rst/quickstart.html) 语法。
 
@@ -138,7 +140,25 @@ make.bat html
 
 ## 3 配置 Sphinx
 
-可以修改 `conf.py`，配置主题为 `sphinx_rtd_theme`。
+### 3.1 配置主题为 sphinx_rtd_theme
+
+本地安装可使用：`pip install sphinx-rtd-theme`。
+
+在 Sphinx 工程中使用 sphinx_rtd_theme 主题需要修改 `conf.py`：
+
+```py
+# 导入 sphinx_rtd_theme 包
+import sphinx_rtd_theme
+
+# 增加插件
+extensions = [
+    ...
+    "sphinx_rtd_theme",
+]
+
+# 修改主题
+html_theme = "sphinx_rtd_theme"
+```
 
 ## 4 推送文件
 
@@ -177,3 +197,31 @@ git push origin master
 点击 `Next`，之后会自动拉取源码进行编译。
 
 之后可以在头像菜单栏选择 `My Projects` 查看已经导入的项目，并预览每个项目。
+
+### 5.2 ReadtheDocs 中文字符构建失败
+
+ReadtheDocs 构建报错 `! Package inputenc Error: Unicode char 整 (U+6574) (inputenc) not set up for use with LaTeX.`。
+解决方法参考 [Sphinx PDFs with Unicode](https://docs.readthedocs.io/en/stable/guides/pdf-non-ascii-languages.html#sphinx-pdfs-with-unicode)。
+
+如果不是用中文或者日文编写的文档，包构建报 Unicode 错误时，尝试修改 `conf.py` 中的 `latex_engine` 默认配置(`pdflatex`)：
+
+```py
+latex_engine = 'xelatex'
+```
+
+如果中文编写，在 `conf.py` 中添加下面的设置：
+
+```py
+latex_engine = 'xelatex'
+latex_use_xindy = False
+latex_elements = {
+    'preamble': '\\usepackage[UTF8]{ctex}\n',
+}
+```
+
+用日文编写的文档，修改 `conf.py`：
+
+```py
+latex_engine = 'platex'
+latex_use_xindy = False
+```
